@@ -1,32 +1,31 @@
-#include <TinyGPS++.h>
+
+  #include <TinyGPS++.h>
 #include <SoftwareSerial.h>
 
-static const int RXPin = 4, TXPin = 3;
-static const uint32_t GPSBaud = 9600;
-
-// The TinyGPS++ object
-TinyGPSPlus gps;
-
-// The serial connection to the GPS device
-SoftwareSerial ss(RXPin, TXPin);
-
-void setup(){
-  Serial.begin(9600);
-  ss.begin(GPSBaud);
-}
-
-void loop(){
-  // This sketch displays information every time a new sentence is correctly encoded.
-  while (ss.available() > 0){
-    gps.encode(ss.read());
-    if (gps.location.isUpdated()){
-      Serial.print("Latitude= "); 
-      Serial.print(gps.location.lat(), 6);
-      Serial.print(" Longitude= "); 
-      Serial.println(gps.location.lng(), 6);
-      Serial.print("Altitude in meters = "); 
-      Serial.println(gps.altitude.meters()); 
-      
-    }
-  }
-}
+TinyGPSPlus  gps;              // The TinyGPS++ object
+SoftwareSerial  ss(4, 5) ;   // The serial connection to the GPS device
+float latitude , longitude;
+String date_str , time_str , lat_str , lng_str;
+void setup()
+{
+  Serial.begin(115200);
+  ss.begin(9600);
+Serial.println("what");
+ }
+void loop()
+{
+ while (ss.available() > 0){
+   Serial.println("jj:");
+    if (gps.encode(ss.read()))
+    {
+      Serial.println("jj:");
+      if (gps.location.isValid())
+      {
+        latitude = gps.location.lat();
+        lat_str = String(latitude , 6);
+        longitude = gps.location.lng();
+        lng_str = String(longitude , 6);
+        Serial.println(lat_str);
+        Serial.println(lng_str);
+      }}}
+}// Print the IP address
